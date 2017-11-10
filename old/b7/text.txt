@@ -1,0 +1,5 @@
+Gegeben ist eine Klasse Canvas
+mit einer Hauptroutine in canvas.py.
+
+ist eine Klasse Canvas
+mit einer Hauptroutine in canvas
