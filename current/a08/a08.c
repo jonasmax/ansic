@@ -22,7 +22,7 @@ void tausche(int * vector, int minIndex){
     vector[minIndex] = a;
 }
 
-/* WIE SOLL DIE AUSGABE GENAU FUNKTIONIEREN (RECHTSBUENDIG) */
+
 void vectorAusgeben(int * vector){
     int index = 0;
     while(vector[index]){
@@ -56,7 +56,9 @@ int * intVektorLesen(){
 
 
 int main(void){
+	int * s = malloc(LEN * sizeof(int));
     int * vector = intVektorLesen();
+    
     sortierenDurchAuswahl(vector);
     vectorAusgeben(vector);
     free(vector);
