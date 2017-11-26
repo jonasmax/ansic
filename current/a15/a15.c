@@ -16,7 +16,7 @@ char * sterne(char word[]){
 
 int is_illegal(char word[], lp illegalWords){
 	while(illegalWords != NULL){
-		if(strcmp(word, illegalWords->word) == NULL){
+		if(strcmp(word, illegalWords->word) == 0){
 			return 1;
 		}
 		illegalWords = illegalWords->next;
@@ -25,12 +25,21 @@ int is_illegal(char word[], lp illegalWords){
 	return 0;
 }
 
+void freeList(lp lst){
+    lp temp = NULL;
+    while(lst != NULL){
+        temp = lst;
+        lst = lst->next;
+        free(temp);
+    }
+}
+
 int main(int argc, char *argv[]){
 	// LISTE: VERBOTENE WOERTER
 	lp illegalWords = NULL;
 	int i = 1;
 	while(argv[i] != 0){
-		illegalWords = add_last(illegalWords, argv[i]);
+		illegalWords = add_word(illegalWords, argv[i]);
 		i++;
 	}
 	
@@ -38,24 +47,28 @@ int main(int argc, char *argv[]){
 	lp sentence = NULL;
 	char word[MAX_WORD_LENGTH] = {0};
 	while(scanf("%s", word) != EOF){
-		sentence = add_last(sentence, word);
+		sentence = add_word(sentence, word);
 	}
 	
 	
 	// PRUEFE
-	while(sentence != NULL){
-		if(is_illegal(sentence->word, illegalWords)){
-			printf("%s ", sterne(sentence->word));
+    lp walker = sentence;
+	while(walker != NULL){
+		if(is_illegal(walker->word, illegalWords)){
+			printf("%s ", sterne(walker->word));
 		}else{
-			printf("%s ", sentence->word);
+			printf("%s ", walker->word);
 		}
 		
-		sentence = sentence->next;
+		walker = walker->next;
 	}
 	printf("\n");
 	
-	free(illegalWords);
-	free(sentence);
+    
+    
+    freeList(illegalWords);
+    freeList(sentence);
+
 	
 	return 0;
 }

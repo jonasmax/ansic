@@ -4,6 +4,8 @@
 #include <assert.h>
 #include "list.h"
 
+lp lst = NULL;
+
 lp initial(lp anfang, lp newP, char word[]){
 	anfang = newP;
 	anfang->next = NULL;
@@ -13,13 +15,35 @@ lp initial(lp anfang, lp newP, char word[]){
 
 lp resStorage(){
 	lp newP = calloc(1, sizeof(list));
-	if(newP == NULL){
-		assert(newP != NULL);
-	}
+    assert(newP != NULL);
 	return newP;
 }
 
-lp add_last(lp anfang, char word[]){
+lp add_pair(lp anfang, char word[], char replace[]){
+	lp newP = resStorage();
+	
+	
+	if(anfang == NULL){
+		return initial(anfang, newP, word);
+	}
+
+	lp walker = anfang;
+	while(walker->next != NULL){
+		walker = walker->next;
+	}
+	
+	walker->next = newP;
+	newP->next = NULL;
+	strcpy(newP->word, word);
+    strcpy(newP->replaceWord, replace);
+	
+	
+	return anfang;
+}
+
+
+
+lp add_word(lp anfang, char word[]){
 	lp newP = resStorage();
 	
 	
@@ -36,9 +60,16 @@ lp add_last(lp anfang, char word[]){
 	newP->next = NULL;
 	strcpy(newP->word, word);
 	
-	free(newP);
-	free(walker);
-	
 	
 	return anfang;
+}
+
+void clearList(void){
+    lp temp = NULL;
+    while(lst != NULL){
+        temp = lst;
+        lst = lst->next;
+        free(temp);
+    }
+    lst = NULL;
 }
