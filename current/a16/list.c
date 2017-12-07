@@ -6,10 +6,11 @@
 
 lp lst = NULL;
 
-lp initial(lp anfang, lp newP, char word[]){
+lp initial(lp anfang, lp newP, char word[], char replace[]){
 	anfang = newP;
 	anfang->next = NULL;
 	strcpy(anfang->word, word);
+	strcpy(newP->replaceWord, replace);
 	return anfang;
 }
 
@@ -24,7 +25,7 @@ lp add_pair(lp anfang, char word[], char replace[]){
 	
 	
 	if(anfang == NULL){
-		return initial(anfang, newP, word);
+		return initial(anfang, newP, word, replace);
 	}
 
 	lp walker = anfang;
@@ -36,29 +37,6 @@ lp add_pair(lp anfang, char word[], char replace[]){
 	newP->next = NULL;
 	strcpy(newP->word, word);
     strcpy(newP->replaceWord, replace);
-	
-	
-	return anfang;
-}
-
-
-
-lp add_word(lp anfang, char word[]){
-	lp newP = resStorage();
-	
-	
-	if(anfang == NULL){
-		return initial(anfang, newP, word);
-	}
-
-	lp walker = anfang;
-	while(walker->next != NULL){
-		walker = walker->next;
-	}
-	
-	walker->next = newP;
-	newP->next = NULL;
-	strcpy(newP->word, word);
 	
 	
 	return anfang;

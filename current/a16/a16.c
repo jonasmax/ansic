@@ -3,26 +3,15 @@
 #include <string.h>
 #include "list.h"
 
-char * sterne(char word[]){
-	int i = 0;
-	while(word[i] != 0){
-		if(i > 1){
-			word[i] = '*';
+char * decrypt(char word[], lp keyPair){
+	while(keyPair != NULL){
+		if(strcmp(word, keyPair->word) == 0){
+			return keyPair->replaceWord;
 		}
-		i++;
-	}
-	return word;
-}
-
-int is_illegal(char word[], lp illegalWords){
-	while(illegalWords != NULL){
-		if(strcmp(word, illegalWords->word) == 0){
-			return 1;
-		}
-		illegalWords = illegalWords->next;
+		keyPair = keyPair->next;
 	}
 	
-	return 0;
+	return word;
 }
 
 void freeList(lp lst){
@@ -34,39 +23,49 @@ void freeList(lp lst){
     }
 }
 
+lp splitKeyPair(char words[], lp ptr) {
+	char delimiter[] = "=";
+	char *delimiterPtr;
+
+	delimiterPtr = strtok(words, delimiter);
+	char *a = delimiterPtr;
+	
+	delimiterPtr = strtok(NULL, delimiter);
+	char *b = delimiterPtr;
+	
+	return add_pair(ptr, a, b);
+}
+
+
 int main(int argc, char *argv[]){
 	// LISTE: VERBOTENE WOERTER
-	lp illegalWords = NULL;
+	lp keyPair = NULL;
 	int i = 1;
 	while(argv[i] != 0){
-		illegalWords = add_word(illegalWords, argv[i]);
+		keyPair = splitKeyPair(argv[i], keyPair);		
 		i++;
 	}
+
 	
 	// LISTE: ZU PRUEFENDER SATZ
 	lp sentence = NULL;
 	char word[MAX_WORD_LENGTH] = {0};
 	while(scanf("%s", word) != EOF){
-		sentence = add_word(sentence, word);
+		sentence = add_pair(sentence, word, "");
 	}
 	
 	
 	// PRUEFE
     lp walker = sentence;
 	while(walker != NULL){
-		if(is_illegal(walker->word, illegalWords)){
-			printf("%s ", sterne(walker->word));
-		}else{
-			printf("%s ", walker->word);
-		}
-		
+		printf("%s ", decrypt(walker->word, keyPair));
 		walker = walker->next;
 	}
 	printf("\n");
 	
     
     
-    freeList(illegalWords);
+    freeList(keyPair);
     freeList(sentence);
 
 	

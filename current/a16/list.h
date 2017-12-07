@@ -10,9 +10,8 @@
 	
 	typedef list * lp;
 	
-	lp initial(lp anfang, lp newP, char word[]);
+	lp initial(lp anfang, lp newP, char word[], char replace[]);
 	lp resStorage();
-	lp add_word(lp li, char word[]);
     lp add_pair(lp anfang, char word[], char replace[]);
     void clearList(void);
 	

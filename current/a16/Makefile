@@ -2,7 +2,7 @@
 
 CC= gcc
 CFLAGS= -g -ansi -pedantic -Wall -std=c99
-PROG= a15
+PROG= a16
 
 $(PROG): $(PROG).o list.o
 	$(CC) $(CFLAGS) $(PROG).o list.o -o $(PROG)

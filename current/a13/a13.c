@@ -20,36 +20,64 @@ struct ring * insert(struct ring *ri, char name[]){
 		return ri;
 	}
 	else{
-		while(ri->next != ri){
-			ri = ri->next;
+		struct ring * walker = ri;
+		while(walker->next != ri){
+			walker = walker->next;
 		}
 		
 		if((newRi = malloc(sizeof(ring))) == NULL){
 			printf("Nicht genug Speicher!");
 		}
-		newRi->next = ri->next;
-		ri->next = newRi;
+		
+		walker->next = newRi;
+		newRi->next = ri;
 		
 		strcpy(newRi->name, name);
-		return newRi->next;
+		return ri;
 	}
+}
+
+struct ring * abzaehlen(struct ring * ptr, int i) {
+	struct ring * temp;
+	int count = 1;
+	while(count < (i-1)) {
+		ptr = ptr->next;
+		count++;
+	}
+	temp = ptr->next;
+	ptr->next = ptr->next->next;
+	
+	free(temp);
+	
+	return ptr->next;
 }
 
 void ausgabe(struct ring *ri){
-	while(ri->next != ri){
-		printf("%s", ri->name);
+	struct ring * walker = ri;
+	while(walker->next != ri){
+		printf("%s", walker->name);
+		walker = walker->next;
 	}
-	
-	printf("%s", ri->name);
+	printf("%s", walker->name);
 }
 
-int main(){
+int main(int argc, char *argv[]){
 	struct ring * ri = NULL;
-	ri = insert(ri, "Hans");
-	ri = insert(ri, "Peter");
-	ri = insert(ri, "Gans");
+	ri = insert(ri, "Robert");
+	ri = insert(ri, "Michael");
+	ri = insert(ri, "Susanne");
+	ri = insert(ri, "Wolfgang");
+	ri = insert(ri, "Florian");
+	ri = insert(ri, "Jonas");
+	ri = insert(ri, "Nicole");
+	ri = insert(ri, "Marco");
+	ri = insert(ri, "Annabelle");
+	
+	
+	while(ri->next != ri){
+		ri = abzaehlen(ri, argc-1);
+	}
 	
 	ausgabe(ri);
-	
 	return 0;
 }
