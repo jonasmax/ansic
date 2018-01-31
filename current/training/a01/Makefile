@@ -2,7 +2,7 @@
 
 CC= ggc
 CFLAGS= -g -ansi -pedantic -Wall
-PROG=a03
+PROG=a01
 
 $(PROG): $(PROG).c
 	$(CC) $(CFLAGS) $(PROG).c -o $(PROG)

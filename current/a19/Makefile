@@ -1,14 +1,14 @@
 .PHONY: run clean
 
-CC= ggc
-CFLAGS= -g -ansi -pedantic -Wall
-PROG=a03
+CC= gcc
+CFLAGS= -g -ansi -pedantic -Wall -std=c89
+PROG= a19
 
 $(PROG): $(PROG).c
 	$(CC) $(CFLAGS) $(PROG).c -o $(PROG)
-    
+
 run: $(PROG)
 	./$(PROG)
-	
+
 clean:
-	rm $(PROG)
+	rm *.o $(PROG)
